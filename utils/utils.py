@@ -48,8 +48,8 @@ class Channel:
     def __add__(self, other) -> int:
         return int(self.num_subscribers) + int(other.num_subscribers)
 
-    def __lt__(self, other):
+    def __lt__(self, other) -> bool:
         return int(self.num_subscribers) < int(other.num_subscribers)
 
-    def __gt__(self, other):
+    def __gt__(self, other) -> bool:
         return int(self.num_subscribers) > int(other.num_subscribers)

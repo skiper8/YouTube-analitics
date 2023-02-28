@@ -6,15 +6,13 @@ from googleapiclient.discovery import build
 class Channel:
     api_key: str = os.getenv('API_KEY')
     youtube = build('youtube', 'v3', developerKey=api_key)
-    channel_id = 'UCMCgOm8GZkHp8zJ6l7_hIuA'
-    channel = youtube.channels().list(id=channel_id, part='snippet,statistics').execute()
-    info_channel = json.dumps(channel, indent=2, ensure_ascii=False)
 
-    def __init__(self, channel_id):
+    def __init__(self, new_id: str):
+        self.channel = self.youtube.channels().list(id=new_id, part='snippet,statistics').execute()
         self._channel_id = self.channel['items'][0]['id']
         self.title = self.channel['items'][0]['snippet']['title']
         self.channel_description = self.channel['items'][0]['snippet']['description']
-        self.channel_url = "https://www.youtube.com/channel/" + channel_id
+        self.channel_url = "https://www.youtube.com/channel/" + new_id
         self.num_subscribers = self.channel['items'][0]['statistics']['subscriberCount']
         self.num_videos = self.channel['items'][0]['statistics']['videoCount']
         self.num_views = self.channel['items'][0]['statistics']['viewCount']
@@ -24,8 +22,9 @@ class Channel:
         return self._channel_id
 
     def print_info(self):
-        print(self.info_channel)
-        return json.loads(self.info_channel)
+        info_channel = json.dumps(self.channel, indent=2, ensure_ascii=False)
+        print(info_channel)
+        return json.loads(info_channel)
 
     def get_service(self):
         return self.youtube

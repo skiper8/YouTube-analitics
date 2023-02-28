@@ -7,3 +7,4 @@ print(vdud.channel_url)
 # vdud.channel_id= 'Новое название'
 print(Channel.get_service)
 vdud.save_to_json('vdud.json')
+

@@ -40,4 +40,5 @@ class Channel:
             "num_views": self.num_views
         }
         with open(file_path, "w", encoding='UTF-8') as file:
-            json.dump(channel_info, file, indent=4)
+            json.dump(channel_info, file, indent=4, ensure_ascii=False)
+            

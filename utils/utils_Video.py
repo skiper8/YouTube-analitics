@@ -8,13 +8,21 @@ class Video:
     youtube = build('youtube', 'v3', developerKey=api_key)
 
     def __init__(self, video_id):
-        video_response = self.youtube.videos().list(part='snippet,statistics',
-                                                    id=video_id
-                                                    ).execute()
-        self.video_id = video_id
-        self.title: str = video_response['items'][0]['snippet']['title']
-        self.views: int = video_response['items'][0]['statistics']['viewCount']
-        self.likes: int = video_response['items'][0]['statistics']['likeCount']
+
+        try:
+            video_response = self.youtube.videos().list(part='snippet,statistics',
+                                                        id=video_id
+                                                        ).execute()
+            self.video_id = video_id
+            self.title: str = video_response['items'][0]['snippet']['title']
+            self.views: int = video_response['items'][0]['statistics']['viewCount']
+            self.likes: int = video_response['items'][0]['statistics']['likeCount']
+
+        except Exception:
+            self.video_id = video_id
+            self.title = None
+            self.views = None
+            self.likes = None
 
     def __str__(self):
         return f'{self.title}'
@@ -36,7 +44,7 @@ class PLVideo(Video):
         return f'{self.video_name} ({self.playlist_name})'
 
 
-video1 = Video('9lO06Zxhu88')
-video2 = PLVideo('BBotskuyw_M', 'PL7Ntiz7eTKwrqmApjln9u4ItzhDLRtPuD')
-print(video1)
-print(video2)
+broken_video = Video('broken_video_id')
+print(broken_video.title)
+print(broken_video.likes)
+

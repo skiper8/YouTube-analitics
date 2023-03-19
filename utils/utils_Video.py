@@ -8,18 +8,16 @@ class Video:
     youtube = build('youtube', 'v3', developerKey=api_key)
 
     def __init__(self, video_id):
-
+        self.video_id = video_id
         try:
             video_response = self.youtube.videos().list(part='snippet,statistics',
                                                         id=video_id
                                                         ).execute()
-            self.video_id = video_id
             self.title: str = video_response['items'][0]['snippet']['title']
             self.views: int = video_response['items'][0]['statistics']['viewCount']
             self.likes: int = video_response['items'][0]['statistics']['likeCount']
 
         except Exception:
-            self.video_id = video_id
             self.title = None
             self.views = None
             self.likes = None
